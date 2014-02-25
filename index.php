@@ -10,6 +10,8 @@
 require 'PHP/Slim/Slim/Slim.php';
 \Slim\Slim::registerAutoloader();
 
+define('VENDOR_DIR', realpath(dirname(__FILE__)) . '/vendor');
+
 $app = new \Slim\Slim();
 
 //specify routes
@@ -23,8 +25,4 @@ $app->any('/php/lint(/:test)', function($test = false) use ($app) {
     PHPLinterWrapper::run($test);
 });
 
-
 $app->run();
-
-
-	
