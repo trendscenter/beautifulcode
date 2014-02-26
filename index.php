@@ -7,10 +7,10 @@
  * @author     Dylan Wood <dwood@mrn.org>
  */
 
-require 'PHP/Slim/Slim/Slim.php';
-\Slim\Slim::registerAutoloader();
-
 define('VENDOR_DIR', realpath(dirname(__FILE__)) . '/vendor');
+
+require VENDOR_DIR . '/Slim/Slim/Slim.php';
+\Slim\Slim::registerAutoloader();
 
 $app = new \Slim\Slim();
 
