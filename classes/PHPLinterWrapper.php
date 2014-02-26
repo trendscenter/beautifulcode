@@ -48,10 +48,10 @@ class PHPLinterWrapper extends PHPCodeWrapper
     public static function run($test)
     {
         $formatter = new PHPLinterWrapper($test);
-        $formatter->execPath = 'php /var/www/beautifulcode/vendor/PHP_CodeSniffer/scripts/phpcs';
+        $formatter->execPath = 'php ' . VENDOR_DIR . '/PHP_CodeSniffer/scripts/phpcs';
         $formatter->defaultOptions = array(
             '--report-file=' . $formatter->outputFile->get('filename'),
-            '--standard=PSR2',
+            '--standard=' . VENDOR_DIR . '/../COINSStandard',
             $formatter->inputFile->get('filename'));
         $formatter->lint();
         $formatter->setOutputHeaders($formatter->responseFilename
