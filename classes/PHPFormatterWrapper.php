@@ -26,7 +26,7 @@ class PHPFormatterWrapper extends PHPCodeWrapper
      */
     public function tidy()
     {
-        $execStr = 'php ' . $this->execPath . ' ';
+        $execStr = $this->execPath . ' ';
         foreach ($this->defaultOptions as $defaultOption) {
             $execStr .= escapeshellarg($defaultOption) . ' ';
         }
@@ -85,12 +85,12 @@ class PHPFormatterWrapper extends PHPCodeWrapper
     public static function run($test)
     {
         $formatter = new PHPFormatterWrapper($test);
-        $formatter->execPath = '/usr/share/php/PHP/phptidy/phptidy.php';
+        $formatter->execPath = 'php ' . VENDOR_DIR . '/phptidy/phptidy.php';
         $formatter->defaultOptions = array('suffix',
             $formatter->inputFile->get('filename'));
         $formatter->tidy();
         //make new exec path for php-cs-fixer
-        $formatter->execPath = '/usr/share/php/PHP/php-cs-fixer.phar';
+        $formatter->execPath = VENDOR_DIR . '/Symfony/php-cs-fixer.phar';
         $formatter->defaultOptions = array('fix',
             $formatter->outputFile->get('filename'));
         $formatter->csFix();
