@@ -37,7 +37,7 @@ class PHPFormatterWrapper extends PHPCodeWrapper
             die;
         }
         $this->setOutputFile(
-            new FileWrapper($this->getFormattedFilenameFromOutput($outputs))
+            new TempFile($this->getFormattedFilenameFromOutput($outputs))
         );
 
         return $this;

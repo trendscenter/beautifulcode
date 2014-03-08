@@ -1,27 +1,25 @@
 <?php
-/**
- * FileWrapper.php
- *
- * @package default
- */
-
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Class to aid in processing uploaded files for beautification and linting
+ * Class to aid in reading and writing uploaded files on disc.
+ * specifically: 
+ * to move a file from $_FILES into a temp location
+ * It also creates some syntactic sugar for interacting with (reading/writing) PHP File objects.
  *
  * PHP version 5
  *
  * @author     Dylan Wood <dwood@mrn.org>
  */
-class FileWrapper
+class TempFile
 {
-    public $filename;
+    private $filename;
 
     /**
+     * Construct new TempFile object from optional filename
      *
      * @param  string $filename (optional)
-     * @return object FileWrapper
+     * @return object TempFile 
      */
     public function __construct($filename = null) 
     {
@@ -31,12 +29,13 @@ class FileWrapper
 
 
 
-        $this->filename = $filename;
+        $this->set('filename', $filename);
 
         return $this;
     }
 
     /**
+     * Generate a unique file path based on current timestamp
      *
      * @return string
      */
@@ -46,17 +45,18 @@ class FileWrapper
     }
 
     /**
+     * Create new TempFile object from uploaded file or this file if in test mode
      *
      * @param  boolean $testMode
-     * @return object  FileWrapper
+     * @return object TempFile 
      */
-    public static function factoryFromUpload($testMode)
+    public static function createFromUpload($testMode = false)
     {
         $tmpFilename = static::generateTmpFilename();
         if ($testMode) {
             copy(__FILE__, $tmpFilename);
 
-            return new FileWrapper($tmpFilename);
+            return new TempFile($tmpFilename);
         }
         $formFieldName = static::getUploadedFileFieldName();
         $moveSuccessful = move_uploaded_file(
@@ -64,7 +64,7 @@ class FileWrapper
             $tmpFilename
         );
         if ($moveSuccessful) {
-            return new FileWrapper($tmpFilename);
+            return new TempFile($tmpFilename);
         } else {
             $errorMsg = 'Unable to locate uploade file under field "'
                 . $formName;
@@ -73,6 +73,7 @@ class FileWrapper
     }
 
     /**
+     * Generic getter method
      *
      * @param  string  $key
      * @return unknown
@@ -83,6 +84,20 @@ class FileWrapper
     }
 
     /**
+     * Generic setter method
+     *
+     * @param  string  $key
+     * @param  unknown $value
+     * @return unknown
+     */
+    public function get($key, $value)
+    {
+        $this->$key = $value;
+        return $this;
+    }
+
+    /**
+     * Replace current file contents with $data
      *
      * @param  string $data
      * @return int,   boolean
@@ -93,6 +108,7 @@ class FileWrapper
     }
 
     /**
+     * Read and return file contents from beginning of file to end
      *
      * @return string
      */
@@ -102,6 +118,7 @@ class FileWrapper
     }
 
     /**
+     * Delete file from disc
      *
      * @return boolean
      */
@@ -109,15 +126,16 @@ class FileWrapper
     {
         $filename = $this->get('filename');
 
-        return unlink($this->filename);
+        return unlink($filename);
     }
 
     /**
+     * Get name of uploaded file
      *
      * @param  boolean $testMode
      * @return string
      */
-    public static function getUploadedFileName($testMode)
+    public static function getUploadedFileName($testMode = false)
     {
         if ($testMode) {
             return basename(__FILE__);
@@ -128,6 +146,7 @@ class FileWrapper
     }
 
     /**
+     * Get array key of $_FILES in which the uploaded file metadata can be found
      *
      * @return string
      */

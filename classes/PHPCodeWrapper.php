@@ -14,7 +14,7 @@
  *
  * @author     Dylan Wood <dwood@mrn.org>
  */
-require_once 'FileWrapper.php';
+require_once 'TempFile.php';
 class PHPCodeWrapper
 {
     public $inputFile;
@@ -29,9 +29,9 @@ class PHPCodeWrapper
     public function __construct($test)
     {
         $this->testMode = ($test === 'test');
-        $this->setInputFile(FileWrapper::factoryFromUpload($this->testMode));
-        $this->setOutputFile(new FileWrapper());
-        $this->responseFilename = FileWrapper::getUploadedFilename($this->testMode);
+        $this->setInputFile(TempFile::createFromUpload($this->testMode));
+        $this->setOutputFile(new TempFile());
+        $this->responseFilename = TempFile::getUploadedFilename($this->testMode);
     }
 
     /**
