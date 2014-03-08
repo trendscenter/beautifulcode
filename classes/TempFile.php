@@ -90,7 +90,7 @@ class TempFile
      * @param  unknown $value
      * @return unknown
      */
-    public function get($key, $value)
+    public function set($key, $value)
     {
         $this->$key = $value;
         return $this;

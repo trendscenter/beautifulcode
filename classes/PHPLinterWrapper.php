@@ -1,10 +1,4 @@
 <?php
-/**
- * PHPLinterWrapper.php
- *
- * @package default
- */
-
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
@@ -21,6 +15,7 @@ class PHPLinterWrapper extends PHPCodeWrapper
     public $defaultOptions;
 
     /**
+     * run a linting process on the input file and write the results to the output file
      *
      * @return object
      */
@@ -42,22 +37,25 @@ class PHPLinterWrapper extends PHPCodeWrapper
     }
 
     /**
+     * Statically create new linting object and use it to lint an uploaded file
      *
+     * @param Slim Object $routerObject
      * @param string $test
      */
-    public static function run($test)
+    public static function run($routerApp, $test)
     {
-        $formatter = new PHPLinterWrapper($test);
-        $formatter->execPath = 'php ' . VENDOR_DIR . '/PHP_CodeSniffer/scripts/phpcs';
-        $formatter->defaultOptions = array(
-            '--report-file=' . $formatter->outputFile->get('filename'),
+        $linter = new PHPLinterWrapper($routerApp, $test);
+        $linter->execPath = 'php ' . VENDOR_DIR . '/PHP_CodeSniffer/scripts/phpcs';
+        $linter->defaultOptions = array(
+            '--report-file=' . $linter->outputFile->get('filename'),
             '--standard=' . VENDOR_DIR . '/../COINSStandard',
-            $formatter->inputFile->get('filename'));
-        $formatter->lint();
-        $formatter->setOutputHeaders($formatter->responseFilename
+            $linter->inputFile->get('filename'));
+        $linter->lint();
+        $linter->setResponseHeaders($linter->responseFilename
             . '.psr2codesniff');
-        $formatter->streamOutputFile();
-        $formatter->destroy();
-    }
+        $linter->streamOutputFile();
+        $linter->destroy();
 
+	return;
+    }
 }

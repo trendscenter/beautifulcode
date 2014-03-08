@@ -17,12 +17,12 @@ $app = new \Slim\Slim();
 //specify routes
 $app->any('/php/tidy(/:test)', function($test = false) use ($app) {
     require_once 'classes/PHPFormatterWrapper.php';
-    PHPFormatterWrapper::run($test);
+    PHPFormatterWrapper::run($app, $test);
 });
 
 $app->any('/php/lint(/:test)', function($test = false) use ($app) {
     require_once 'classes/PHPLinterWrapper.php';
-    PHPLinterWrapper::run($test);
+    PHPLinterWrapper::run($app, $test);
 });
 
 $app->run();
