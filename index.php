@@ -15,7 +15,7 @@ require VENDOR_DIR . '/Slim/Slim/Slim.php';
 $app = new \Slim\Slim();
 
 //specify routes
-$app->any('/php/tidy(/:test)', function($test = false) use ($app) {
+$app->any('/php/format(/:test)', function($test = false) use ($app) {
     require_once 'classes/PHPFormatterWrapper.php';
     PHPFormatterWrapper::run($app, $test);
 });
