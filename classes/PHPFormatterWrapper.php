@@ -26,7 +26,7 @@ class PHPFormatterWrapper extends PHPCodeWrapper
             $execStr .= escapeshellarg($defaultOption) . ' ';
         }
         exec($execStr, $outputs, $returnVar);
-        if (!sizeof($outputs)) {
+        if ($returnVar != 0) {
             $errorMsg = 'Encountered error executing "' . $execStr . '"';
             throw new Exception ($errorMsg);
             die;
@@ -72,16 +72,26 @@ class PHPFormatterWrapper extends PHPCodeWrapper
         );
         $formatter->set(
             'defaultOptions',
-             array('suffix', $formatter->inputFile->get('filename'))
+             array('suffix', $formatter->get('inputFile')->get('filename'))
         );
         $formatter->format();
+        //copy output to input for another round of formatting with cs-fixer...
+	copy(
+            $formatter->get('outputFile')->get('filename'),
+            $formatter->get('inputFile')->get('filename')
+        );
         //make new exec path for php-cs-fixer
         $formatter->set('execPath', VENDOR_DIR . '/Symfony/php-cs-fixer.phar');
         $formatter->set(
             'defaultOptions',
-            array('fix', $formatter->outputFile->get('filename'))
+            array('fix', $formatter->inputFile->get('filename'))
         );
         $formatter->format();
+	//cs-fixer just writes its changes to the input file, so copy it over the output file
+	copy(
+            $formatter->get('inputFile')->get('filename'),
+            $formatter->get('outputFile')->get('filename')
+        );
         $formatter->setResponseHeaders($formatter->responseFilename . '.csfixed_and_tidy');
         $formatter->streamOutputFile();
         $formatter->destroy();
