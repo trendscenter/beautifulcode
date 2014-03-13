@@ -14,7 +14,7 @@ require VENDOR_DIR . '/Slim/Slim/Slim.php';
 
 $app = new \Slim\Slim();
 
-//specify routes
+//specify PHP routes
 $app->any('/php/format(/:test)', function($test = false) use ($app) {
     require_once 'classes/PHPFormatterWrapper.php';
     PHPFormatterWrapper::run($app, $test);
@@ -23,6 +23,17 @@ $app->any('/php/format(/:test)', function($test = false) use ($app) {
 $app->any('/php/lint(/:test)', function($test = false) use ($app) {
     require_once 'classes/PHPLinterWrapper.php';
     PHPLinterWrapper::run($app, $test);
+});
+
+//specify JS routes
+$app->any('/js/format(/:test)', function($test = false) use ($app) {
+    require_once 'classes/JSFormatterWrapper.js';
+    JSFormatterWrapper::run($app, $test);
+});
+
+$app->any('/js/lint(/:test)', function($test = false) use ($app) {
+    require_once 'classes/JSLinterWrapper.js';
+    JSLinterWrapper::run($app, $test);
 });
 
 $app->run();

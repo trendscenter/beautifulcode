@@ -10,7 +10,7 @@
  * @author     Dylan Wood <dwood@mrn.org>
  */
 require_once 'TempFile.php';
-class PHPCodeWrapper
+class CodeWrapper
 {
     public $inputFile;
     public $outputFile;

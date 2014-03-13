@@ -10,4 +10,11 @@
  <rule ref="PSR2"/>
  <!-- Include the naming conventions from Zend -->
  <rule ref="Zend.NamingConventions.ValidVariableName"/>
+ <!-- Set warning limit at 80 chararcters instead of PSR-2 default of 120-->
+ <rule ref="Generic.Files.LineLength">
+  <properties>
+   <property name="lineLimit" value="80"/>
+   <property name="absoluteLineLimit" value="120"/>
+  </properties>
+ </rule>
 </ruleset>

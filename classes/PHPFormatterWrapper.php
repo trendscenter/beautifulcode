@@ -8,8 +8,8 @@
  *
  * @author     Dylan Wood <dwood@mrn.org>
  */
-require_once 'PHPCodeWrapper.php';
-class PHPFormatterWrapper extends PHPCodeWrapper
+require_once 'CodeWrapper.php';
+class PHPFormatterWrapper extends CodeWrapper
 {
     public $execPath;
     public $defaultOptions;

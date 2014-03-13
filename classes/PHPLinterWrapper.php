@@ -8,8 +8,8 @@
  *
  * @author     Dylan Wood <dwood@mrn.org>
  */
-require_once 'PHPCodeWrapper.php';
-class PHPLinterWrapper extends PHPCodeWrapper
+require_once 'CodeWrapper.php';
+class PHPLinterWrapper extends CodeWrapper
 {
     public $execPath;
     public $defaultOptions;
