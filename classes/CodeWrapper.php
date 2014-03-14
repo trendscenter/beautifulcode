@@ -26,11 +26,12 @@ class CodeWrapper
      * @param Slim Object $routerApp
      * @param string $test
      */
-    public function __construct($routerApp, $testMode = '')
+    public function __construct($routerApp, $testMode = '', $language = '')
     {
         $this->setRouterApp($routerApp);
         $this->setTestMode($testMode === 'test');
-        $this->setInputFile(TempFile::createFromUpload($this->testMode));
+	$this->set('language', $language);
+        $this->setInputFile(TempFile::createFromUpload($this->language, $this->testMode));
         $this->setOutputFile(new TempFile());
         $this->responseFilename = TempFile::getUploadedFilename($this->testMode);
     }

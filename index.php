@@ -27,12 +27,12 @@ $app->any('/php/lint(/:test)', function($test = false) use ($app) {
 
 //specify JS routes
 $app->any('/js/format(/:test)', function($test = false) use ($app) {
-    require_once 'classes/JSFormatterWrapper.js';
+    require_once 'classes/JSFormatterWrapper.php';
     JSFormatterWrapper::run($app, $test);
 });
 
 $app->any('/js/lint(/:test)', function($test = false) use ($app) {
-    require_once 'classes/JSLinterWrapper.js';
+    require_once 'classes/JSLinterWrapper.php';
     JSLinterWrapper::run($app, $test);
 });
 

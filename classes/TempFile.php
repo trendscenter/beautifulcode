@@ -21,14 +21,11 @@ class TempFile
      * @param  string $filename (optional)
      * @return object TempFile 
      */
-    public function __construct($filename = null) 
+    public function __construct($filename = null, $extension = '') 
     {
         if ($filename === null) {
-             $filename = static::generateTmpFilename();
+             $filename = static::generateTmpFilename($extension);
         }
-
-
-
         $this->set('filename', $filename);
 
         return $this;
@@ -39,9 +36,11 @@ class TempFile
      *
      * @return string
      */
-    public static function generateTmpFilename()
+    public static function generateTmpFilename($extension = '')
     {
-        return '/tmp/filewrapper_tmpfile_' . str_replace(' ', '_', microtime());
+	if ($extension) $extension = ".$extension";
+        return '/tmp/filewrapper_tmpfile_' . str_replace(' ', '_', microtime())
+            . $extension;
     }
 
     /**
@@ -50,9 +49,9 @@ class TempFile
      * @param  boolean $testMode
      * @return object TempFile 
      */
-    public static function createFromUpload($testMode = false)
+    public static function createFromUpload($extension, $testMode = false)
     {
-        $tmpFilename = static::generateTmpFilename();
+        $tmpFilename = static::generateTmpFilename($extension);
         if ($testMode) {
             copy(__FILE__, $tmpFilename);
 
