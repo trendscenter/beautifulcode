@@ -50,8 +50,9 @@ class PHPFormatterWrapper extends CodeWrapper
     private function getFormattedFilenameFromOutput($output)
     {
         //the fourth line of output contains the newly written file
-        if (isset($output[4])) {
-            return str_replace(' saved.', '', trim($output[4]));
+        $filename = str_replace(' saved.', '', trim(array_pop($output)));
+        if (file_exists($filename)) {
+            return $filename;
         } else {
             $errorMsg = 'Formatted filename not found where expected';
             throw new Exception ($errorMsg);
