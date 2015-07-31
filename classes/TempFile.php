@@ -124,8 +124,9 @@ class TempFile
     public function destroy()
     {
         $filename = $this->get('filename');
-
-        return unlink($filename);
+	if (file_exists($filename)) {
+            return unlink($filename);
+	}
     }
 
     /**
