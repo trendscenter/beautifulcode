@@ -1,0 +1,9 @@
+[submodule "vendor/PHP_CodeSniffer"]
+	path = vendor/PHP_CodeSniffer
+	url = https://github.com/squizlabs/PHP_CodeSniffer.git
+[submodule "vendor/Slim"]
+	path = vendor/Slim
+	url = https://github.com/codeguy/Slim.git
+[submodule "vendor/phptidy"]
+	path = vendor/phptidy
+	url = https://github.com/MRN-Code/phptidy.git
